@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { HiOutlineCheckCircle, HiOutlineCurrencyDollar } from "react-icons/hi2";
+import { HiOutlineCheckCircle, HiOutlineCurrencyDollar, HiOutlineExclamationCircle } from "react-icons/hi2";
 import { useTheme } from "styled-components";
 
 import {
@@ -18,9 +18,16 @@ import {
   ContainerTitle,
   TitleBox,
   ContainerIcon,
-  TextQuantityTasks,
+  TextTask,
   BoxEarnings,
-  TextEarnings,
+  BottomInfoTasks,
+  BoxValidationTasks,
+  DescBox,
+  ContainerInValidation,
+  ContainerGroupText,
+  ContainerPossibleEarnings,
+  ContainerDescBox,
+  DescPossibleEarnings,
 } from "./styles";
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
@@ -61,7 +68,7 @@ export const Profile: FC<ProfileProps> = () => {
                 <HiOutlineCheckCircle size={20} color={theme.colors.text_negative} />
               </ContainerIcon>
             </ContainerTitle>
-            <TextQuantityTasks>{user.tasksCompleted}</TextQuantityTasks>
+            <TextTask>{user.tasksCompleted}</TextTask>
           </BoxQuantityTasks>
           <BoxEarnings>
             <ContainerTitle>
@@ -70,9 +77,30 @@ export const Profile: FC<ProfileProps> = () => {
                 <HiOutlineCurrencyDollar size={20} color={theme.colors.text_negative} />
               </ContainerIcon>
             </ContainerTitle>
-            <TextEarnings>{user.earnings ? `R$ ${user.earnings.toFixed(2).replace(".", ",")}` : "R$ 0,00"}</TextEarnings>
+            <TextTask>{user.earnings ? `R$ ${user.earnings.toFixed(2).replace(".", ",")}` : "R$ 0,00"}</TextTask>
           </BoxEarnings>
         </TopInfoTasks>
+        <BottomInfoTasks>
+          <BoxValidationTasks>
+            <ContainerTitle>
+              <TitleBox>Em validação</TitleBox>
+              <ContainerIcon>
+                <HiOutlineExclamationCircle size={20} color={theme.colors.text_negative} />
+              </ContainerIcon>
+            </ContainerTitle>
+            <ContainerGroupText>
+              <ContainerInValidation>
+                <ContainerPossibleEarnings>
+                  <TextTask>{user.tasksInValidation ? `R$ ${user.tasksInValidation.toFixed(2).replace(".", ",")}` : "R$ 0,00"} - 2 tarefas</TextTask>
+                  <DescPossibleEarnings>possíveis ganhos</DescPossibleEarnings>
+                </ContainerPossibleEarnings>
+              </ContainerInValidation>
+            </ContainerGroupText>
+            <ContainerDescBox>
+              <DescBox>Caso alguma tarefa não seja aprovada o valor não será adicionado aos ganhos</DescBox>
+            </ContainerDescBox>
+          </BoxValidationTasks>
+        </BottomInfoTasks>
       </ContainerInfosTasks>
     </ProfileContainer>
   );

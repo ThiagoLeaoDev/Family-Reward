@@ -8,10 +8,12 @@ const lightTheme = {
     text_primary: "#11263C",
     text_negative: "#FFFAFA",
     text_secondary: "#A6ACB3",
-    orange: "#FFB03A",
-    orange_500: "#FFF9F1",
-    red: "#E46060",
-    red_500: "#FBE0E4",
+    success: "#4CD62B",
+    success_500: "#EDFFF6",
+    attention: "#FFB03A",
+    attention_500: "#FFF9F1",
+    warning: "#E46060",
+    warning_500: "#FBE0E4",
   },
 
   fonts: {

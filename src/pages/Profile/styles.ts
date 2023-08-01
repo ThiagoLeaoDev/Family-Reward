@@ -96,14 +96,14 @@ export const TopInfoTasks = styled.div`
 `;
 
 export const BoxQuantityTasks = styled.div`
+  width: 40%;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  width: 40%;
   justify-content: center;
-  border-radius: 10px;
-  padding: 10px;
   background-color: ${({ theme }) => theme.colors.background_primary};
+  border-radius: 12px;
+  padding: 12px;
   margin-right: 10px;
 `;
 
@@ -130,27 +130,63 @@ export const ContainerIcon = styled.div`
   padding: 5px;
 `;
 
-export const TextQuantityTasks = styled.p`
-  font-size: 20px;
-  font-weight: medium
-  margin-top: 5px;
-`;
-
-export const BoxEarnings = styled.div`
-  display: flex;
-  width: 60%;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: center;
-  background-color: ${({ theme }) => theme.colors.background_primary};
-  border-radius: 10px;
-  padding: 10px;
-  margin-left: 10px;
-`;
-
-export const TextEarnings = styled.p`
+export const TextTask = styled.p`
   font-size: 20px;
   font-weight: medium;
   margin-top: 5px;
 `;
 
+export const BoxEarnings = styled(BoxQuantityTasks)`
+  width: 60%;
+  margin-right: 0px;
+  margin-left: 10px;
+`;
+
+export const BottomInfoTasks = styled(TopInfoTasks)`
+  margin-top: 10px;
+`;
+
+export const BoxValidationTasks = styled(BoxQuantityTasks)`
+  width: 100%;
+  margin-right: 0px;
+`;
+
+export const ContainerGroupText = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+  width: 100%;
+`;
+
+export const ContainerInValidation = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-right: 30px;
+`;
+
+export const ContainerPossibleEarnings = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+`;
+
+export const DescPossibleEarnings = styled.span`
+  font-size: 12px;
+  font-weight: normal;
+  color: ${({ theme }) => theme.colors.text_secondary};
+`;
+
+export const ContainerDescBox = styled.div`
+  width: 100%;
+  margin-top: 10px;
+`;
+
+export const DescBox = styled.p`
+  font-size: 10px;
+  font-weight: normal;
+  color: ${({ theme }) => theme.colors.text_secondary};
+  margin-top: 5px;
+`;
