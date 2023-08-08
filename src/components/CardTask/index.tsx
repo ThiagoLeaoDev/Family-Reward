@@ -1,26 +1,28 @@
 import React from "react";
+import { Task } from "../../interfaces/tasks";
+import { Link } from "react-router-dom";
 
-import { Card, ContainerImage, CardImage, PillCategory, TitleCategory, CardInfos, HeaderInfos, CardTitle, TaskValue, CardDescription } from "./styles";
+import { Card, ContainerImage, CardImage, CardInfos, HeaderInfos, CardTitle, TaskValue, CardDescription } from "./styles";
 
-export const CardTask: React.FC = () => {
+import { Pill } from "../Pill";
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export const CardTask: React.FC<Task> = ({ id, image, name, description, value, category_task, created_by }) => {
   return (
-    <Card>
-      <ContainerImage>
-        <PillCategory>
-          <TitleCategory>Cozinha</TitleCategory>
-        </PillCategory>
-        <CardImage
-          src="https://images.unsplash.com/uploads/1413170239208ebba60a2/07d615e0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
-          alt="Imagem da tarefa"
-        />
-      </ContainerImage>
-      <CardInfos>
-        <HeaderInfos>
-          <CardTitle>Lavar a louça</CardTitle>
-          <TaskValue>R$ 1,00</TaskValue>
-        </HeaderInfos>
-        <CardDescription>Lavar a louça bem lavadinha, salada saladinha, bem temperadinha</CardDescription>
-      </CardInfos>
-    </Card>
+    <Link to={`/task/${id}`} style={{ textDecoration: "none" }}>
+      <Card>
+        <ContainerImage>
+          <Pill text={category_task} />
+          <CardImage src={image} alt="Imagem da tarefa" />
+        </ContainerImage>
+        <CardInfos>
+          <HeaderInfos>
+            <CardTitle>{name}</CardTitle>
+            <TaskValue>R$ {value}</TaskValue>
+          </HeaderInfos>
+          <CardDescription>{description}</CardDescription>
+        </CardInfos>
+      </Card>
+    </Link>
   );
 };

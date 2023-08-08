@@ -67,6 +67,7 @@ export const SectionCategory = styled.div`
   flex-direction: column;
   align-items: flex-start;
   justify-content: flex-start;
+  margin-bottom: 20px;
 `;
 
 export const HeaderSection = styled.div`

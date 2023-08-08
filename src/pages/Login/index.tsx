@@ -1,9 +1,9 @@
-import React, { FC } from 'react';
-import { LoginContainer, BackgroundImage, ContainerContent, GradientOverlay, Title, Subtitle, GoogleLoginButton } from './styles';
+import React, { FC } from "react";
+import { LoginContainer, BackgroundImage, ContainerContent, GradientOverlay, Title, Subtitle, GoogleLoginButton } from "./styles";
 
 interface LoginProps {}
 
-export const Login: FC<LoginProps> = ({}) => {
+export const Login: FC<LoginProps> = () => {
   return (
     <>
       <LoginContainer>

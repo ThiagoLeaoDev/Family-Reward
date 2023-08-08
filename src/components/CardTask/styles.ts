@@ -31,20 +31,6 @@ export const CardImage = styled.img`
   border-radius: 10px 10px 0 0;
 `;
 
-export const PillCategory = styled.div`
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  background-color: ${({ theme }) => theme.colors.primary + "90"};
-  padding: 4px 8px;
-  border-radius: 12px;
-`;
-
-export const TitleCategory = styled.p`
-  font-size: ${({ theme }) => theme.fonts.sizes.small};
-  color: ${({ theme }) => theme.colors.text_negative};
-`;
-
 export const CardInfos = styled.div`
   display: flex;
   width: 100%;
