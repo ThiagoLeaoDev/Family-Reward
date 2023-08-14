@@ -1,8 +1,8 @@
 import styled from "styled-components";
 
 export const Card = styled.div`
-  min-width: 300px; /* Define a largura mínima para o Card */
-  width: 100%;
+  width: 310px;
+  height: 200px;
   box-sizing: border-box;
   flex-direction: column;
   align-items: flex-start;
@@ -60,6 +60,6 @@ export const TaskValue = styled.p`
 `;
 
 export const CardDescription = styled.p`
-  font-size: ${({ theme }) => theme.fonts.sizes.small};
+  font-size: 10px;
   color: ${({ theme }) => theme.colors.text_secondary};
 `;
