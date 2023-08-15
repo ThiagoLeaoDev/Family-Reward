@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react";
+import React, { FC, useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 
 import {
@@ -21,14 +21,26 @@ import {
 } from "./styles";
 
 import { ImageUpload } from "../../utils/imageUpload";
+
 import { createExecution } from "../../services/execution";
+import { readOneTask } from "../../services/task";
 
 import { Execution } from "../../interfaces/executions";
+import { Task } from "../../interfaces/tasks";
 
 export const ExecutionPage: FC = () => {
   const { id } = useParams<{ id: string }>();
   const [imageBefore, setImageBefore] = useState<File>();
   const [imageAfter, setImageAfter] = useState<File>();
+  const [task, setTask] = useState<Task>();
+
+  useEffect(() => {
+    if (id) {
+      readOneTask(id).then((response) => {
+        setTask(response);
+      });
+    }
+  }, [id]);
 
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -61,7 +73,7 @@ export const ExecutionPage: FC = () => {
     <Container>
       <ContainerHeader>
         <TileExecution>Executando a terefa</TileExecution>
-        <TaskExecution>Lavar a louça</TaskExecution>
+        <TaskExecution>{task?.name}</TaskExecution>
       </ContainerHeader>
       <FormExecution onSubmit={handleSubmit} encType="multipart/form-data" method="post" id="form">
         <ContainerUploadBefore>
