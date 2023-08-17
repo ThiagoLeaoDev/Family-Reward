@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 import { Container, ContainerImage, Image, ContainerInfos, ContainerTitleValue, Title, Value, Description, ButtonExecute } from "./styles";
 
@@ -57,7 +57,9 @@ export const TaskPage: React.FC = () => {
           <Value>R$ {task?.value}</Value>
         </ContainerTitleValue>
         <Description>{task?.description}</Description>
-        <ButtonExecute onClick={handleExecute}>Executar</ButtonExecute>
+        <Link to={`/execution/${id}`} style={{ width: "100%", textDecoration: "none" }}>
+          <ButtonExecute onClick={handleExecute}>Executar</ButtonExecute>
+        </Link>
       </ContainerInfos>
     </Container>
   );
