@@ -7,7 +7,7 @@ export const LoginContainer = styled.div`
   align-items: center;
   justify-content: flex-end;
   height: 100vh;
-  padding: 0 26px;
+  padding: 80px 26px;
 `;
 
 export const BackgroundImage = styled.img`
@@ -32,6 +32,9 @@ export const GradientOverlay = styled.div`
 
 export const ContainerContent = styled.div`
   z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `;
 
 export const Title = styled.h1`
@@ -46,22 +49,23 @@ export const Subtitle = styled.p`
   font-size: 16px;
   color: ${({ theme }) => theme.colors.text_negative};
   text-align: center;
+  margin-bottom: 40px;
 `;
 
-export const GoogleLoginButton = styled.button`
-  display: block;
-  width: 100%;
-  padding: 18px;
-  background-color: ${({ theme }) => theme.colors.primary};
-  color: ${({ theme }) => theme.colors.text_negative};
-  border: none;
-  border-radius: 8px;
-  font-size: 16px;
-  font-weight: bold;
-  margin: 40px auto;
-  cursor: pointer;
+// export const GoogleLoginButton = styled.button`
+//   display: block;
+//   width: 100%;
+//   padding: 18px;
+//   background-color: ${({ theme }) => theme.colors.primary};
+//   color: ${({ theme }) => theme.colors.text_negative};
+//   border: none;
+//   border-radius: 8px;
+//   font-size: 16px;
+//   font-weight: bold;
+//   margin: 40px auto;
+//   cursor: pointer;
 
-  &:hover {
-    opacity: 0.9;
-  }
-`;
+//   &:hover {
+//     opacity: 0.9;
+//   }
+// `;

@@ -2,6 +2,8 @@ import React, { FC } from "react";
 import { HiOutlineCheckCircle, HiOutlineCurrencyDollar, HiOutlineExclamationCircle } from "react-icons/hi2";
 import { useTheme } from "styled-components";
 
+import { useAuth } from "../../hooks/auth";
+
 import {
   ProfileContainer,
   ProfileName,
@@ -35,28 +37,20 @@ interface ProfileProps {}
 
 export const Profile: FC<ProfileProps> = () => {
   const theme = useTheme();
-  const user = {
-    name: "Thiago Leão",
-    image: "https://github.com/ThiagoLeaoDev.png",
-    email: "thiago.leaox@gmail.com",
-    role: "Coelho branco 🐰",
-    tasksCompleted: 5,
-    earnings: 1.55,
-    tasksInValidation: 2,
-  };
+  const { user } = useAuth();
 
   return (
     <ProfileContainer>
       <ContainerProfileInfos>
         <ContainerAvatar>
           <BoxAvatar>
-            <Avatar src={user.image} alt="Profile Image" />
+            <Avatar src={user ? user.image : ""} alt="Profile Image" />
           </BoxAvatar>
-          <TagRole>{user.role}</TagRole>
+          <TagRole>{user ? (user.role === "user" ? "Twiby" : "Administrador") : "Usuário"}</TagRole>
         </ContainerAvatar>
         <ContainerInfos>
-          <ProfileName>{user.name}</ProfileName>
-          <ProfileEmail>{user.email}</ProfileEmail>
+          <ProfileName>{user ? user.name : "Usuário"}</ProfileName>
+          <ProfileEmail>{user ? user.email : "Email"}</ProfileEmail>
         </ContainerInfos>
       </ContainerProfileInfos>
       <ContainerInfosTasks>
@@ -68,7 +62,7 @@ export const Profile: FC<ProfileProps> = () => {
                 <HiOutlineCheckCircle size={20} color={theme.colors.text_negative} />
               </ContainerIcon>
             </ContainerTitle>
-            <TextTask>{user.tasksCompleted}</TextTask>
+            <TextTask>0</TextTask>
           </BoxQuantityTasks>
           <BoxEarnings>
             <ContainerTitle>
@@ -77,7 +71,7 @@ export const Profile: FC<ProfileProps> = () => {
                 <HiOutlineCurrencyDollar size={20} color={theme.colors.text_negative} />
               </ContainerIcon>
             </ContainerTitle>
-            <TextTask>{user.earnings ? `R$ ${user.earnings.toFixed(2).replace(".", ",")}` : "R$ 0,00"}</TextTask>
+            <TextTask>R$ 0,00</TextTask>
           </BoxEarnings>
         </TopInfoTasks>
         <BottomInfoTasks>
@@ -91,13 +85,13 @@ export const Profile: FC<ProfileProps> = () => {
             <ContainerGroupText>
               <ContainerInValidation>
                 <ContainerPossibleEarnings>
-                  <TextTask>{user.tasksInValidation ? `R$ ${user.tasksInValidation.toFixed(2).replace(".", ",")}` : "R$ 0,00"} - 2 tarefas</TextTask>
+                  <TextTask>R$ 0,00</TextTask>
                   <DescPossibleEarnings>possíveis ganhos</DescPossibleEarnings>
                 </ContainerPossibleEarnings>
               </ContainerInValidation>
             </ContainerGroupText>
             <ContainerDescBox>
-              <DescBox>Caso alguma tarefa não seja aprovada o valor não será adicionado aos ganhos</DescBox>
+              <DescBox>Caso alguma tarefa seja reprovada o valor não será adicionado aos ganhos</DescBox>
             </ContainerDescBox>
           </BoxValidationTasks>
         </BottomInfoTasks>

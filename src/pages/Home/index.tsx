@@ -3,6 +3,8 @@ import { HiMagnifyingGlass } from "react-icons/hi2";
 import { useTheme } from "styled-components";
 import { useQuery } from "react-query";
 
+import { useAuth } from "../../hooks/auth";
+
 import {
   Container,
   ContainerProfileInfos,
@@ -29,6 +31,7 @@ import { ReadAllTasks } from "../../interfaces/categories";
 interface HomeProps {}
 
 export const Home: FC<HomeProps> = () => {
+  const { user } = useAuth();
   const theme = useTheme();
   const { data, isLoading, error } = useQuery<ReadAllTasks[]>("readAllTasks", readAllTasks, {
     retry: 5, // Número de tentativas de requisição
@@ -43,10 +46,10 @@ export const Home: FC<HomeProps> = () => {
   return (
     <Container>
       <ContainerProfileInfos>
-        <AvatarProfile src={"https://github.com/ThiagoLeaoDev.png"} alt="Avatar" />
+        <AvatarProfile src={user ? user.image : ""} alt="Profile Image" />
         <ContainerText>
           <TextProfile>Bem vindo, denovo!</TextProfile>
-          <NameProfile>Thiago Leão</NameProfile>
+          <NameProfile>{user ? user.name : "Usuário"}</NameProfile>
         </ContainerText>
       </ContainerProfileInfos>
       <ContainerSearch>
