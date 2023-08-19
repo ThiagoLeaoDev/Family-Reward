@@ -1,6 +1,6 @@
-import React, { FC, useEffect } from "react";
-// import jwtDecode from "jwt-decode";
-import { GoogleLogin } from "react-google-login";
+import React, { FC } from "react";
+import jwtDecode from "jwt-decode";
+import { GoogleLogin } from "@react-oauth/google";
 
 import { useAuth } from "../../hooks/auth";
 
@@ -12,34 +12,8 @@ import { useNavigate } from "react-router-dom";
 interface LoginProps {}
 
 export const Login: FC<LoginProps> = () => {
-  const { registerUser, user } = useAuth();
+  const { registerUser } = useAuth();
   const navigate = useNavigate();
-
-  const onSuccess = async (response: any) => {
-    const decoded = response.profileObj as any;
-
-    console.log(decoded);
-
-    const userData: User = {
-      name: decoded.name,
-      email: decoded.email,
-      password: "",
-      image: decoded.picture,
-      role: "user",
-      balance: 0,
-    };
-
-    registerUser(userData);
-    navigate("/", { replace: true });
-  };
-
-  useEffect(() => {
-    alert(user);
-  }, []);
-
-  const onFailure = (response: any) => {
-    console.log(response);
-  };
 
   return (
     <>
@@ -52,7 +26,7 @@ export const Login: FC<LoginProps> = () => {
         <ContainerContent>
           <Title>Bem-vindo ao App de Tarefas!</Title>
           <Subtitle>Faça login com sua conta Google para continuar.</Subtitle>
-          {/* <GoogleLogin
+          <GoogleLogin
             onSuccess={async (credentialResponse) => {
               if (credentialResponse?.credential) {
                 const decoded = jwtDecode(credentialResponse.credential) as any;
@@ -76,15 +50,6 @@ export const Login: FC<LoginProps> = () => {
             onError={() => {
               console.log("Login Failed");
             }}
-            coo
-          /> */}
-
-          <GoogleLogin
-            clientId="679672176669-3uimcj21sjbdk83eijgp1qi6sfi5fq0c.apps.googleusercontent.com"
-            buttonText="Entrar com Google"
-            onSuccess={onSuccess}
-            onFailure={onFailure}
-            cookiePolicy={"single_host_origin"}
           />
         </ContainerContent>
       </LoginContainer>
