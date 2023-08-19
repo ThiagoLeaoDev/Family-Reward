@@ -1,7 +1,6 @@
 import React, { FC } from "react";
 import jwtDecode from "jwt-decode";
 import { GoogleLogin } from "@react-oauth/google";
-// import { useNavigate } from "react-router-dom";
 
 import { useAuth } from "../../hooks/auth";
 
@@ -42,7 +41,7 @@ export const Login: FC<LoginProps> = () => {
                 };
 
                 await registerUser(userData);
-                console.log("Login Success");
+                alert("Login realizado com sucesso!");
                 navigate("/", { replace: true });
               } else {
                 console.log("Credential not found");
