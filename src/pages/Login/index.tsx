@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 import jwtDecode from "jwt-decode";
-import { GoogleLogin } from "@react-oauth/google";
+import { GoogleLogin } from "react-google-login";
 
 import { useAuth } from "../../hooks/auth";
 
@@ -15,6 +15,27 @@ export const Login: FC<LoginProps> = () => {
   const { registerUser } = useAuth();
   const navigate = useNavigate();
 
+  const onSuccess = async (response: any) => {
+    const decoded = jwtDecode(response.tokenId) as any;
+
+    const userData: User = {
+      name: decoded.name,
+      email: decoded.email,
+      password: "",
+      image: decoded.picture,
+      role: "user",
+      balance: 0,
+    };
+
+    await registerUser(userData);
+    alert("Login realizado com sucesso!");
+    navigate("/", { replace: true });
+  };
+
+  const onFailure = (response: any) => {
+    console.log(response);
+  };
+
   return (
     <>
       <LoginContainer>
@@ -26,7 +47,7 @@ export const Login: FC<LoginProps> = () => {
         <ContainerContent>
           <Title>Bem-vindo ao App de Tarefas!</Title>
           <Subtitle>Faça login com sua conta Google para continuar.</Subtitle>
-          <GoogleLogin
+          {/* <GoogleLogin
             onSuccess={async (credentialResponse) => {
               if (credentialResponse?.credential) {
                 const decoded = jwtDecode(credentialResponse.credential) as any;
@@ -50,6 +71,15 @@ export const Login: FC<LoginProps> = () => {
             onError={() => {
               console.log("Login Failed");
             }}
+            coo
+          /> */}
+
+          <GoogleLogin
+            clientId="679672176669-t2ot9gosh78vlc5epo76h4nmq7o2el49.apps.googleusercontent.com"
+            buttonText="Entrar com Google"
+            onSuccess={onSuccess}
+            onFailure={onFailure}
+            cookiePolicy={"single_host_origin"}
           />
         </ContainerContent>
       </LoginContainer>

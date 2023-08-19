@@ -1,6 +1,5 @@
 import React from "react";
 import { ThemeProvider } from "styled-components";
-import { GoogleOAuthProvider } from "@react-oauth/google";
 
 import { DefaultRoutes } from "./routes/default";
 
@@ -12,12 +11,10 @@ import { lightTheme } from "./global/styles/theme";
 function App() {
   return (
     <AuthProvider>
-      <GoogleOAuthProvider clientId="679672176669-t2ot9gosh78vlc5epo76h4nmq7o2el49.apps.googleusercontent.com">
-        <ThemeProvider theme={lightTheme}>
-          <DefaultRoutes />
-          <GlobalStyle />
-        </ThemeProvider>
-      </GoogleOAuthProvider>
+      <ThemeProvider theme={lightTheme}>
+        <DefaultRoutes />
+        <GlobalStyle />
+      </ThemeProvider>
     </AuthProvider>
   );
 }
