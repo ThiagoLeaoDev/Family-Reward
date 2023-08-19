@@ -21,8 +21,8 @@ export const DefaultRoutes = () => {
             <Route path="/" element={<PrivateRoutes />}>
               <Route path="/" element={<Home />} />
               <Route path="/profile" element={<Profile />} />
-              <Route path="/task" element={<TaskPage />} />
-              <Route path="/execution" element={<ExecutionPage />} />
+              <Route path="/task/:id" element={<TaskPage />} />
+              <Route path="/execution/:id" element={<ExecutionPage />} />
             </Route>
             <Route path="/login" element={<Login />} />
           </Routes>

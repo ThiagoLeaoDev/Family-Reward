@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Link, useParams } from "react-router-dom";
+import { useQuery } from "react-query";
 
 import { Container, ContainerImage, Image, ContainerInfos, ContainerTitleValue, Title, Value, Description, ButtonExecute } from "./styles";
 
@@ -11,35 +12,24 @@ import { readOneCategory } from "../../services/category";
 import { Task } from "../../interfaces/tasks";
 import { Category } from "../../interfaces/categories";
 
+import { MoneyFormatter } from "../../utils/dataFormatter";
+
 export const TaskPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
-  const [task, setTask] = useState<Task>();
-  const [category, setCategory] = useState<Category>();
 
-  useEffect(() => {
-    async function handleReadOneTask() {
-      if (id) {
-        const response = await readOneTask(id);
-        setTask(response);
-        return response; // Retornar a resposta para ser usada no then
-      }
-    }
+  const { data: task } = useQuery<Task>(["readOneTask", id], () => readOneTask(id || ""), {
+    retry: 5,
+    refetchOnWindowFocus: true,
+    refetchInterval: 3000,
+  });
 
-    async function handleReadOneCategory(taskId: string) {
-      if (taskId) {
-        const response = await readOneCategory(taskId);
-        setCategory(response);
-      }
-    }
+  const categoryTask = task?.category_task; // Armazena a categoria em uma variável
 
-    if (id) {
-      handleReadOneTask().then((response) => {
-        if (response) {
-          handleReadOneCategory(response.category_task);
-        }
-      });
-    }
-  }, [id]);
+  const { data: category } = useQuery<Category>(["readOneCategory", categoryTask], () => readOneCategory(categoryTask || ""), {
+    retry: 5,
+    refetchOnWindowFocus: true,
+    refetchInterval: 3000,
+  });
 
   function handleExecute() {
     console.log("Executou");
@@ -54,7 +44,7 @@ export const TaskPage: React.FC = () => {
         <Pill text={category?.name} />
         <ContainerTitleValue>
           <Title>{task?.name}</Title>
-          <Value>R$ {task?.value}</Value>
+          <Value>{MoneyFormatter(Number(task?.value))}</Value>
         </ContainerTitleValue>
         <Description>{task?.description}</Description>
         <Link to={`/execution/${id}`} style={{ width: "100%", textDecoration: "none" }}>

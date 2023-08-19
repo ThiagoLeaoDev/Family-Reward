@@ -6,6 +6,8 @@ import { Card, ContainerImage, CardImage, CardInfos, HeaderInfos, CardTitle, Tas
 
 import { Pill } from "../Pill";
 
+import { MoneyFormatter } from "../../utils/dataFormatter";
+
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const CardTask: React.FC<Task> = ({ id, image, name, description, value, category_task, created_by }) => {
   return (
@@ -18,7 +20,7 @@ export const CardTask: React.FC<Task> = ({ id, image, name, description, value, 
         <CardInfos>
           <HeaderInfos>
             <CardTitle>{name}</CardTitle>
-            <TaskValue>R$ {value}</TaskValue>
+            <TaskValue>{MoneyFormatter(Number(value))}</TaskValue>
           </HeaderInfos>
           <CardDescription>{description}</CardDescription>
         </CardInfos>
