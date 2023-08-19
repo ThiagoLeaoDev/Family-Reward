@@ -32,12 +32,16 @@ import {
   DescPossibleEarnings,
 } from "./styles";
 
+import { CountApprovedExecutions, ExecutionsEarninigs, CountPendingExecutions, CountPossibleEarnings } from "../../utils/executions";
+
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 interface ProfileProps {}
 
 export const Profile: FC<ProfileProps> = () => {
   const theme = useTheme();
   const { user } = useAuth();
+
+  !user && console.log("User not found");
 
   return (
     <ProfileContainer>
@@ -62,7 +66,7 @@ export const Profile: FC<ProfileProps> = () => {
                 <HiOutlineCheckCircle size={20} color={theme.colors.text_negative} />
               </ContainerIcon>
             </ContainerTitle>
-            <TextTask>0</TextTask>
+            <TextTask>{user ? (user.id ? CountApprovedExecutions(user.id) : 0) : 0}</TextTask>
           </BoxQuantityTasks>
           <BoxEarnings>
             <ContainerTitle>
@@ -71,13 +75,13 @@ export const Profile: FC<ProfileProps> = () => {
                 <HiOutlineCurrencyDollar size={20} color={theme.colors.text_negative} />
               </ContainerIcon>
             </ContainerTitle>
-            <TextTask>R$ 0,00</TextTask>
+            <TextTask>{user ? (user.id ? ExecutionsEarninigs(user.id) : 0) : 0}</TextTask>
           </BoxEarnings>
         </TopInfoTasks>
         <BottomInfoTasks>
           <BoxValidationTasks>
             <ContainerTitle>
-              <TitleBox>Em validação</TitleBox>
+              <TitleBox>Em validação: {user ? (user.id ? CountPendingExecutions(user.id) : 0) : 0}</TitleBox>
               <ContainerIcon>
                 <HiOutlineExclamationCircle size={20} color={theme.colors.text_negative} />
               </ContainerIcon>
@@ -85,7 +89,7 @@ export const Profile: FC<ProfileProps> = () => {
             <ContainerGroupText>
               <ContainerInValidation>
                 <ContainerPossibleEarnings>
-                  <TextTask>R$ 0,00</TextTask>
+                  <TextTask>{user ? (user.id ? CountPossibleEarnings(user.id) : 0) : 0}</TextTask>
                   <DescPossibleEarnings>possíveis ganhos</DescPossibleEarnings>
                 </ContainerPossibleEarnings>
               </ContainerInValidation>
