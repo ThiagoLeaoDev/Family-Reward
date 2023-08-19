@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { FC, useEffect } from "react";
 import jwtDecode from "jwt-decode";
 import { GoogleLogin } from "react-google-login";
 
@@ -12,7 +12,7 @@ import { useNavigate } from "react-router-dom";
 interface LoginProps {}
 
 export const Login: FC<LoginProps> = () => {
-  const { registerUser } = useAuth();
+  const { registerUser, user } = useAuth();
   const navigate = useNavigate();
 
   const onSuccess = async (response: any) => {
@@ -27,10 +27,13 @@ export const Login: FC<LoginProps> = () => {
       balance: 0,
     };
 
-    await registerUser(userData);
-    alert("Login realizado com sucesso!");
+    registerUser(userData);
     navigate("/", { replace: true });
   };
+
+  useEffect(() => {
+    console.log(user);
+  }, []);
 
   const onFailure = (response: any) => {
     console.log(response);
