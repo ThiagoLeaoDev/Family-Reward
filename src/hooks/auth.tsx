@@ -10,6 +10,7 @@ interface AuthContextData {
   user: User | null;
   updateUser: (userData: User | null) => void;
   signOut: () => void;
+  userStorageLoading: boolean;
   registerUser: (userData: User) => void;
 }
 
@@ -17,13 +18,21 @@ const AuthContext = createContext<AuthContextData>({} as AuthContextData);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
+  const [userStorageLoading, setUserStorageLoading] = useState(true);
 
   useEffect(() => {
-    const user = localStorage.getItem("user");
+    async function loadUserStorageData() {
+      const userStorage = localStorage.getItem("u");
 
-    if (user) {
-      setUser(JSON.parse(user));
+      if (userStorage) {
+        const userLogged = JSON.parse(userStorage) as User;
+        setUser(userLogged);
+      }
+
+      setUserStorageLoading(false);
     }
+
+    loadUserStorageData();
   }, []);
 
   const registerUser = async (userData: User) => {
@@ -43,7 +52,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setUserLocalStorage(null);
   };
 
-  return <AuthContext.Provider value={{ user, updateUser, signOut, registerUser }}>{children}</AuthContext.Provider>;
+  return <AuthContext.Provider value={{ user, updateUser, signOut, registerUser, userStorageLoading }}>{children}</AuthContext.Provider>;
 }
 
 export function useAuth() {
