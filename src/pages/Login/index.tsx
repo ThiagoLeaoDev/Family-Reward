@@ -1,5 +1,5 @@
 import React, { FC, useEffect } from "react";
-import jwtDecode from "jwt-decode";
+// import jwtDecode from "jwt-decode";
 import { GoogleLogin } from "react-google-login";
 
 import { useAuth } from "../../hooks/auth";
@@ -16,7 +16,9 @@ export const Login: FC<LoginProps> = () => {
   const navigate = useNavigate();
 
   const onSuccess = async (response: any) => {
-    const decoded = jwtDecode(response.tokenId) as any;
+    const decoded = response.profileObj as any;
+
+    console.log(decoded);
 
     const userData: User = {
       name: decoded.name,
@@ -32,7 +34,7 @@ export const Login: FC<LoginProps> = () => {
   };
 
   useEffect(() => {
-    console.log(user);
+    alert(user);
   }, []);
 
   const onFailure = (response: any) => {
@@ -78,7 +80,7 @@ export const Login: FC<LoginProps> = () => {
           /> */}
 
           <GoogleLogin
-            clientId="679672176669-t2ot9gosh78vlc5epo76h4nmq7o2el49.apps.googleusercontent.com"
+            clientId="679672176669-3uimcj21sjbdk83eijgp1qi6sfi5fq0c.apps.googleusercontent.com"
             buttonText="Entrar com Google"
             onSuccess={onSuccess}
             onFailure={onFailure}
