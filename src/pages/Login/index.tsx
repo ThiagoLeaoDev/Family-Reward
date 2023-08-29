@@ -1,58 +1,61 @@
 import React, { FC } from "react";
-import jwtDecode from "jwt-decode";
-import { GoogleLogin } from "@react-oauth/google";
+import { useForm, FormProvider } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
 
-import { useAuth } from "../../hooks/auth";
+import { Container, ContainerForm, Title, Subtitle, Button } from "./styles";
 
-import { LoginContainer, BackgroundImage, ContainerContent, GradientOverlay, Title, Subtitle } from "./styles";
+import { Form } from "../../components/Form";
 
-import { User } from "../../interfaces/user";
-import { useNavigate } from "react-router-dom";
+const loginUserFormSchema = z.object({
+  email: z.string().nonempty("O e-mail é obrigatório").email("Formato de e-mail inválido").toLowerCase(),
+  password: z.string().min(6, "A senha deve ter no mínimo 6 caracteres"),
+});
 
-interface LoginProps {}
+type LoginUserFormData = z.infer<typeof loginUserFormSchema>;
 
-export const Login: FC<LoginProps> = () => {
-  const { registerUser } = useAuth();
-  const navigate = useNavigate();
+export const Login: FC = () => {
+  const createUserForm = useForm<LoginUserFormData>({
+    resolver: zodResolver(loginUserFormSchema),
+  });
+
+  function handleLogin(data: any) {
+    console.log(data);
+  }
+
+  const {
+    handleSubmit,
+    formState: { isSubmitting },
+    watch,
+  } = createUserForm;
+
+  const userPassword = watch("password");
+  const isPasswordStrong = new RegExp("(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9])(?=.{8,})").test(userPassword);
 
   return (
-    <>
-      <LoginContainer>
-        <BackgroundImage
-          src="https://images.unsplash.com/photo-1642505172378-a6f5e5b15580?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
-          alt="Login Background"
-        />
-        <GradientOverlay />
-        <ContainerContent>
-          <Title>Bem-vindo ao App de Tarefas!</Title>
-          <Subtitle>Faça login com sua conta Google para continuar.</Subtitle>
-          <GoogleLogin
-            onSuccess={async (credentialResponse) => {
-              if (credentialResponse?.credential) {
-                const decoded = jwtDecode(credentialResponse.credential) as any;
-
-                const userData: User = {
-                  name: decoded.name,
-                  email: decoded.email,
-                  password: "",
-                  image: decoded.picture,
-                  role: "user",
-                  balance: 0,
-                };
-
-                await registerUser(userData);
-                alert("Login realizado com sucesso!");
-                navigate("/", { replace: true });
-              } else {
-                console.log("Credential not found");
-              }
-            }}
-            onError={() => {
-              console.log("Login Failed");
-            }}
-          />
-        </ContainerContent>
-      </LoginContainer>
-    </>
+    <Container>
+      <FormProvider {...createUserForm}>
+        <ContainerForm onSubmit={handleSubmit(handleLogin)}>
+          <Title>Bem vindo</Title>
+          <Subtitle>Entre com suas credenciais</Subtitle>
+          <Form.Field>
+            <Form.Label htmlFor="email">E-mail</Form.Label>
+            <Form.Input type="email" name="email" />
+            <Form.ErrorMessage field="email" />
+          </Form.Field>
+          <Form.Field>
+            <Form.Label htmlFor="password">
+              Senha
+              {isPasswordStrong ? <span className="text-xs text-emerald-600">Senha forte</span> : <span className="text-xs text-red-500">Senha fraca</span>}
+            </Form.Label>
+            <Form.Input type="password" name="password" />
+            <Form.ErrorMessage field="password" />
+          </Form.Field>
+          <Button type="submit" disabled={isSubmitting}>
+            Salvar
+          </Button>
+        </ContainerForm>
+      </FormProvider>
+    </Container>
   );
 };
