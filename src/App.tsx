@@ -1,21 +1,24 @@
 import React from "react";
 import { ThemeProvider } from "styled-components";
 
-import { DefaultRoutes } from "./routes/default";
+import { AppRouter } from "./routes";
+import { BrowserRouter as Router } from "react-router-dom";
 
-import { AuthProvider } from "./hooks/auth";
+import { AuthProvider } from "./contexts/AuthContext";
 
 import GlobalStyle from "./styles/globalStyles";
 import { lightTheme } from "./global/styles/theme";
 
 function App() {
   return (
-    <AuthProvider>
-      <ThemeProvider theme={lightTheme}>
-        <DefaultRoutes />
-        <GlobalStyle />
-      </ThemeProvider>
-    </AuthProvider>
+    <Router>
+      <AuthProvider>
+        <ThemeProvider theme={lightTheme}>
+          <AppRouter />
+          <GlobalStyle />
+        </ThemeProvider>
+      </AuthProvider>
+    </Router>
   );
 }
 

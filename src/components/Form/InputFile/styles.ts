@@ -1,15 +1,9 @@
 import styled from "styled-components";
 
-// <InputFileComponent>
-//   { preview && <PreviewImage src={ URL.createObjectURL(preview) } alt = "Imagem antes" />}
-// <LabelUpload htmlFor="before" > { preview? "Alterar imagem": "Adicionar imagem" } < /LabelUpload>
-//   < InputUpload type = "file" name = "before" id = "before" onChange = {(event) => setImageTask(event.target.files![0])} />
-//     < /InputFileComponent>
-
 export const InputFileComponent = styled.div`
   position: relative;
   width: 100%;
-  height: 180px;
+  height: 20vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -25,16 +19,18 @@ export const PreviewImage = styled.img`
   position: absolute;
   width: 100%;
   height: 100%;
-  min-height: 180px;
   object-fit: cover;
   border-radius: 8px;
 `;
 
 export const LabelUpload = styled.label`
-  display: block;
   z-index: 2;
+  position: absolute;
   width: 100%;
-  padding: 70px 10px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   border-radius: 8px;
   border: 1px dashed ${({ theme }) => theme.colors.text_primary};
   text-align: center;

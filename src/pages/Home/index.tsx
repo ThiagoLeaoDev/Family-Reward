@@ -1,9 +1,7 @@
-import React, { FC } from "react";
+import React, { FC, useContext } from "react";
 import { HiMagnifyingGlass } from "react-icons/hi2";
 import { useTheme } from "styled-components";
 import { useQuery } from "react-query";
-
-import { useAuth } from "../../hooks/auth";
 
 import {
   Container,
@@ -27,11 +25,13 @@ import { readAllTasks } from "../../services/category";
 
 import { ReadAllTasks } from "../../interfaces/categories";
 
+import { AuthContext } from "../../contexts/AuthContext";
+
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 interface HomeProps {}
 
 export const Home: FC<HomeProps> = () => {
-  const { user } = useAuth();
+  const { user } = useContext(AuthContext);
   const theme = useTheme();
   const { data, isLoading, error } = useQuery<ReadAllTasks[]>("readAllTasks", readAllTasks, {
     retry: 5, // Número de tentativas de requisição

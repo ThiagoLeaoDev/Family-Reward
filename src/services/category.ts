@@ -14,3 +14,10 @@ export const readOneCategory = (id: string): Promise<Category> => {
     method: "get",
   });
 };
+
+export const readCategories = (): Promise<Category[]> => {
+  return backendRequest({
+    endpoint: "/categories",
+    method: "get",
+  });
+};

@@ -1,8 +1,6 @@
-import React, { FC } from "react";
+import React, { FC, useContext } from "react";
 import { HiOutlineCheckCircle, HiOutlineCurrencyDollar, HiOutlineExclamationCircle } from "react-icons/hi2";
 import { useTheme } from "styled-components";
-
-import { useAuth } from "../../hooks/auth";
 
 import {
   ProfileContainer,
@@ -33,13 +31,14 @@ import {
 } from "./styles";
 
 import { CountApprovedExecutions, ExecutionsEarninigs, CountPendingExecutions, CountPossibleEarnings } from "../../utils/executions";
+import { AuthContext } from "../../contexts/AuthContext";
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 interface ProfileProps {}
 
 export const Profile: FC<ProfileProps> = () => {
   const theme = useTheme();
-  const { user } = useAuth();
+  const { user } = useContext(AuthContext);
 
   !user && console.log("User not found");
 

@@ -2,6 +2,7 @@ import React, { FC, useState } from "react";
 import { useForm, FormProvider } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useQuery } from "react-query";
 
 import {
   Container,
@@ -22,7 +23,11 @@ import {
 
 import { Form } from "../../components/Form";
 
-import { ImageUpload } from "../../utils/imageUpload";
+// import { ImageUpload } from "../../utils/imageUpload";
+
+import { readCategories } from "../../services/category";
+
+import { Category } from "../../interfaces/categories";
 
 const createTaskFormSchema = z.object({
   image: z.instanceof(FileList).transform((list) => list.item(0)!),
@@ -39,11 +44,16 @@ export const CreateTask: FC = () => {
   const createTaskForm = useForm<CreateTaskFormData>({
     resolver: zodResolver(createTaskFormSchema),
   });
+  const { data } = useQuery<Category[]>("readCategories", readCategories, {
+    retry: 5,
+    refetchOnWindowFocus: true,
+    refetchInterval: 3000,
+  });
 
   async function createTask(data: CreateTaskFormData) {
-    const imageUrl = await ImageUpload(data.image);
+    // const imageUrl = await ImageUpload(data.image);
 
-    console.log(imageUrl);
+    console.log(data);
   }
 
   const {
@@ -85,9 +95,11 @@ export const CreateTask: FC = () => {
               <Form.Field>
                 <Form.Label htmlFor="category">Categoria da tarefa</Form.Label>
                 <Form.Select name="category" id="category">
-                  <option value="1">Limpeza</option>
-                  <option value="2">Manutenção</option>
-                  <option value="3">Reparo</option>
+                  {data?.map((category) => (
+                    <option key={category.id} value={category.id}>
+                      {category.name}
+                    </option>
+                  ))}
                 </Form.Select>
                 <Form.ErrorMessage field="category" />
               </Form.Field>

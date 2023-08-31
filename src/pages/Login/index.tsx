@@ -1,11 +1,13 @@
-import React, { FC } from "react";
+import React, { FC, useContext } from "react";
 import { useForm, FormProvider } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Navigate } from "react-router-dom";
 
 import { Container, ContainerForm, Title, Subtitle, Button } from "./styles";
 
 import { Form } from "../../components/Form";
+import { AuthContext } from "../../contexts/AuthContext";
 
 const loginUserFormSchema = z.object({
   email: z.string().nonempty("O e-mail é obrigatório").email("Formato de e-mail inválido").toLowerCase(),
@@ -15,12 +17,14 @@ const loginUserFormSchema = z.object({
 type LoginUserFormData = z.infer<typeof loginUserFormSchema>;
 
 export const Login: FC = () => {
+  const { signIn, isAuthenticated } = useContext(AuthContext);
+
   const createUserForm = useForm<LoginUserFormData>({
     resolver: zodResolver(loginUserFormSchema),
   });
 
-  function handleLogin(data: any) {
-    console.log(data);
+  async function handleSignIn(data: LoginUserFormData) {
+    await signIn(data);
   }
 
   const {
@@ -32,10 +36,14 @@ export const Login: FC = () => {
   const userPassword = watch("password");
   const isPasswordStrong = new RegExp("(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9])(?=.{8,})").test(userPassword);
 
+  if (isAuthenticated) {
+    return <Navigate to="/home" />;
+  }
+
   return (
     <Container>
       <FormProvider {...createUserForm}>
-        <ContainerForm onSubmit={handleSubmit(handleLogin)}>
+        <ContainerForm onSubmit={handleSubmit(handleSignIn)}>
           <Title>Bem vindo</Title>
           <Subtitle>Entre com suas credenciais</Subtitle>
           <Form.Field>
