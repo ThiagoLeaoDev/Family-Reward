@@ -2,7 +2,7 @@ import React, { ReactNode, createContext, useEffect, useState } from "react";
 import Cookies from "universal-cookie";
 import { useNavigate } from "react-router-dom";
 
-import { recoverUserInformation, signInRequest } from "../services/exampleAuth";
+import { loginUser, readUser } from "../services/user";
 
 import { User } from "../interfaces/user";
 import { api } from "../services";
@@ -31,25 +31,22 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     const token = cookies.get("auth.token");
 
-    console.log("token", token);
-
     if (token) {
-      recoverUserInformation().then((user) => {
-        console.log("user", user.user);
-        setUser(user.user);
+      readUser().then((response) => {
+        setUser(response);
       });
     }
   }, []);
 
   async function signIn({ email, password }: SignInData) {
-    const { token, user } = await signInRequest({
+    const { token, user } = await loginUser({
       email,
       password,
     });
 
     cookies.set("auth.token", token, {
       // maxAge: 60 * 60 * 24 * 30, // 30 days
-      maxAge: 60 * 60 * 1, // 1 hour
+      maxAge: 60 * 60 * 8, // 8 hours
     });
 
     api.defaults.headers["Authorization"] = `Bearer ${token}`;

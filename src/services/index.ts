@@ -29,8 +29,6 @@ const backendRequest = async ({ endpoint, method, data, headers }: FamilyRewardR
 };
 
 api.interceptors.request.use((config) => {
-  console.log(config);
-
   return config;
 });
 
