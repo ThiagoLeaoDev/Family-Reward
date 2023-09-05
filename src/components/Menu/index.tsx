@@ -10,7 +10,7 @@ export const Menu: FC = () => {
   return (
     <ContainerNav>
       <NavBox>
-        <NavItem to="/">
+        <NavItem to="/home">
           <HiOutlineHome color={theme.colors.text_secondary} size={24} />
         </NavItem>
         <NavItem to="/login">

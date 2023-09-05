@@ -9,8 +9,6 @@ import { ExecutionPage } from "../pages/Execution";
 import { CreateTask } from "../pages/CreateTask";
 import { Login } from "../pages/Login";
 
-// import { Menu } from "../components/Menu";
-
 export const AppRouter = () => {
   return (
     <Routes>
@@ -19,8 +17,8 @@ export const AppRouter = () => {
       <Route path="/" element={<PrivateRoutes />}>
         <Route path="/home" element={<Home />} />
         <Route path="/profile" element={<Profile />} />
-        <Route path="/task" element={<TaskPage />} />
-        <Route path="/execution" element={<ExecutionPage />} />
+        <Route path="/task/:id" element={<TaskPage />} />
+        <Route path="/execution/:id" element={<ExecutionPage />} />
         <Route path="/createTask" element={<CreateTask />} />
       </Route>
     </Routes>

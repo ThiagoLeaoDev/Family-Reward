@@ -33,6 +33,7 @@ interface HomeProps {}
 export const Home: FC<HomeProps> = () => {
   const { user } = useContext(AuthContext);
   const theme = useTheme();
+
   const { data, isLoading, error } = useQuery<ReadAllTasks[]>("readAllTasks", readAllTasks, {
     retry: 5, // Número de tentativas de requisição
     refetchOnWindowFocus: true, // Atualiza os dados quando a janela está em foco

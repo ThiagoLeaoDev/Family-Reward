@@ -1,5 +1,11 @@
-import React, { FC, useState, useEffect } from "react";
+import React, { FC, useState, useEffect, useContext } from "react";
 import { useParams } from "react-router-dom";
+import { useMutation } from "react-query";
+import { defaultToastOptions, Toast } from "../../components/Toast";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
+
+import { AuthContext } from "../../contexts/AuthContext";
 
 import {
   Container,
@@ -30,9 +36,12 @@ import { Task } from "../../interfaces/tasks";
 
 export const ExecutionPage: FC = () => {
   const { id } = useParams<{ id: string }>();
+  const { user } = useContext(AuthContext);
   const [imageBefore, setImageBefore] = useState<File>();
   const [imageAfter, setImageAfter] = useState<File>();
   const [task, setTask] = useState<Task>();
+  const createExecutionMutation = useMutation((data: Execution) => createExecution(data));
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (id) {
@@ -58,19 +67,26 @@ export const ExecutionPage: FC = () => {
           before_image: values[0],
           after_image: values[1],
           status: "pending",
-          task_executed: id ? id : "",
-          executed_by: "9316456d-b113-4d99-97c3-57a76d3e1bdf", //change for user id context
+          task_executed: id || "",
+          executed_by: user?.id || "",
         };
 
-        createExecution(data);
+        createExecutionMutation.mutate(data);
+
+        toast.success("Execução realizada com sucesso!", {
+          ...defaultToastOptions,
+        });
       })
       .catch((error) => {
         console.error("Error uploading images:", error);
       });
+
+    navigate("/profile");
   }
 
   return (
     <Container>
+      <Toast />
       <ContainerHeader>
         <TileExecution>Executando a terefa</TileExecution>
         <TaskExecution>{task?.name}</TaskExecution>
