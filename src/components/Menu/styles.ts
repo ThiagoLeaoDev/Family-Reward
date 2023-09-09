@@ -16,7 +16,6 @@ export const NavBox = styled.div`
   flex-direction: row;
   align-items: center;
   justify-content: space-around;
-  width: 300px;
   height: 100%;
   padding: 6px 20px;
   background-color: ${({ theme }) => theme.colors.background_primary};

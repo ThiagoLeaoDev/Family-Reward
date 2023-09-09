@@ -21,12 +21,12 @@ export const ExecutionsEarninigs = (userId: string) => {
 };
 
 export const CountPendingExecutions = (userId: string) => {
-  const { data: pendingExecutions } = useQuery("pendingExecutions", () => readExecutionsByStatus("waiting", userId));
+  const { data: pendingExecutions } = useQuery("pendingExecutions", () => readExecutionsByStatus("pending", userId));
   return pendingExecutions?.length;
 };
 
 export const CountPossibleEarnings = (userId: string) => {
-  const { data: pendingExecutions } = useQuery("pendingExecutions", () => readExecutionsByStatus("waiting", userId));
+  const { data: pendingExecutions } = useQuery("pendingExecutions", () => readExecutionsByStatus("pending", userId));
 
   const earnings = pendingExecutions?.reduce((acc: any, execution: ExecutionTask) => {
     return acc + Number(execution.task.value);

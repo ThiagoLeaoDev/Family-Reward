@@ -67,42 +67,6 @@ export const TitleUpload = styled.h3`
   align-self: start;
 `;
 
-export const ContainerInputUpload = styled.div`
-  position: relative;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-`;
-
-export const PreviewImage = styled.img`
-  z-index: 1;
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  border-radius: 8px;
-`;
-
-export const LabelUpload = styled.label`
-    display: block;
-    z-index: 2;
-    width: 100%;
-    padding: 70px 10px;
-    border-radius: 8px;
-    border: 1px dashed ${({ theme }) => theme.colors.text_primary};
-    text-align: center;
-    font-size: 14px;
-    color: ${({ theme }) => theme.colors.text_secondary};
-    font-weight: 400;
-    cursor: pointer;
-`;
-
-export const InputUpload = styled.input`
-  display: none;
-`;
-
 export const ContainerUploadAfter = styled(ContainerUploadBefore)`
   display: flex;
   flex-direction: column;

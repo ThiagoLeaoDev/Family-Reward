@@ -19,7 +19,7 @@ export const AppRouter = () => {
         <Route path="/profile" element={<Profile />} />
         <Route path="/task/:id" element={<TaskPage />} />
         <Route path="/execution/:id" element={<ExecutionPage />} />
-        <Route path="/createTask" element={<CreateTask />} />
+        <Route path="/create-task" element={<CreateTask />} />
       </Route>
     </Routes>
   );

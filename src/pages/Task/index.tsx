@@ -31,14 +31,10 @@ export const TaskPage: React.FC = () => {
     refetchInterval: 3000,
   });
 
-  function handleExecute() {
-    console.log("Executou");
-  }
-
   return (
     <Container>
       <ContainerImage>
-        <Image src={task?.image} alt="Imagem de uma pessoa com um notebook" />
+        <Image src={task?.image} alt="Imagem da tarefa" />
       </ContainerImage>
       <ContainerInfos>
         <Pill text={category?.name} />
@@ -48,7 +44,7 @@ export const TaskPage: React.FC = () => {
         </ContainerTitleValue>
         <Description>{task?.description}</Description>
         <Link to={`/execution/${id}`} style={{ width: "100%", textDecoration: "none" }}>
-          <ButtonExecute onClick={handleExecute}>Executar</ButtonExecute>
+          <ButtonExecute>Executar</ButtonExecute>
         </Link>
       </ContainerInfos>
     </Container>

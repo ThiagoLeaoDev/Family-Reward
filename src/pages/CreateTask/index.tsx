@@ -1,8 +1,12 @@
-import React, { FC, useState } from "react";
+import React, { FC, useState, useContext } from "react";
 import { useForm, FormProvider } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useQuery } from "react-query";
+import { useQuery, useMutation } from "react-query";
+import { toast } from "react-toastify";
+import { defaultToastOptions, Toast } from "../../components/Toast";
+
+import { AuthContext } from "../../contexts/AuthContext";
 
 import {
   Container,
@@ -23,11 +27,13 @@ import {
 
 import { Form } from "../../components/Form";
 
-// import { ImageUpload } from "../../utils/imageUpload";
+import { ImageUpload } from "../../utils/imageUpload";
 
 import { readCategories } from "../../services/category";
+import { createTask } from "../../services/task";
 
 import { Category } from "../../interfaces/categories";
+import { Task } from "../../interfaces/tasks";
 
 const createTaskFormSchema = z.object({
   image: z.instanceof(FileList).transform((list) => list.item(0)!),
@@ -40,20 +46,39 @@ const createTaskFormSchema = z.object({
 type CreateTaskFormData = z.infer<typeof createTaskFormSchema>;
 
 export const CreateTask: FC = () => {
+  const { user } = useContext(AuthContext);
   const [imageTask, setImageTask] = useState<File>();
+
   const createTaskForm = useForm<CreateTaskFormData>({
     resolver: zodResolver(createTaskFormSchema),
   });
+
+  const createTaskMutation = useMutation((data: Task) => createTask(data));
   const { data } = useQuery<Category[]>("readCategories", readCategories, {
     retry: 5,
     refetchOnWindowFocus: true,
     refetchInterval: 3000,
   });
 
-  async function createTask(data: CreateTaskFormData) {
-    // const imageUrl = await ImageUpload(data.image);
+  async function createTaskSubmit(data: CreateTaskFormData) {
+    const urlTaskImagePromise = ImageUpload(data.image);
 
-    console.log(data);
+    const value: Task = {
+      image: await urlTaskImagePromise,
+      name: data.name,
+      description: data.description || "",
+      value: Number(data.value),
+      category_task: data.category,
+      created_by: user?.id || "",
+    };
+
+    createTaskMutation.mutate(value);
+
+    toast.success("Tarefa criada com sucesso!", {
+      ...defaultToastOptions,
+    });
+
+    createTaskForm.reset();
   }
 
   const {
@@ -63,8 +88,9 @@ export const CreateTask: FC = () => {
 
   return (
     <Container>
+      <Toast />
       <FormProvider {...createTaskForm}>
-        <FormTask onSubmit={handleSubmit(createTask)} encType="multipart/form-data" method="post" id="form">
+        <FormTask onSubmit={handleSubmit(createTaskSubmit)} encType="multipart/form-data" method="post" id="form">
           <ContainerHeader>
             <TitleTask>Criar tarefa</TitleTask>
           </ContainerHeader>
