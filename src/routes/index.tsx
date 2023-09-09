@@ -8,12 +8,14 @@ import { TaskPage } from "../pages/Task";
 import { ExecutionPage } from "../pages/Execution";
 import { CreateTask } from "../pages/CreateTask";
 import { Login } from "../pages/Login";
+import { ValidateTask } from "../pages/ValidateTask";
 
 export const AppRouter = () => {
   return (
     <Routes>
       <Route path="/" element={<Login />} />
       <Route path="/login" element={<Login />} />
+      <Route path="/validation" element={<ValidateTask />} />
       <Route path="/" element={<PrivateRoutes />}>
         <Route path="/home" element={<Home />} />
         <Route path="/profile" element={<Profile />} />
